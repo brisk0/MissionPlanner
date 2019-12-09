@@ -160,6 +160,8 @@ namespace MissionPlanner.Controls
         private float _navpitch = 0;
         private float _heading = 0;
         private float _targetheading = 0;
+        private float _steerheading = 0;
+        private float _steerval = 0;
         private float _alt = 0;
         private float _targetalt = 0;
         private float _groundspeed = 0;
@@ -271,6 +273,34 @@ namespace MissionPlanner.Controls
                 if (_targetheading != value)
                 {
                     _targetheading = value;
+                    this.Invalidate();
+                }
+            }
+        }
+
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
+        public float steerheading
+        {
+            get { return _steerheading; }
+            set
+            {
+                if (_steerheading != value)
+                {
+                    _steerheading = value;
+                    this.Invalidate();
+                }
+            }
+        }
+
+        [System.ComponentModel.Browsable(true), System.ComponentModel.Category("Values")]
+        public float steerval
+        {
+            get { return _steerval; }
+            set
+            {
+                if (_steerval != value)
+                {
+                    _steerval = value;
                     this.Invalidate();
                 }
             }
@@ -782,6 +812,7 @@ namespace MissionPlanner.Controls
         private Color _hudcolor = Color.White;
         private Pen _whitePen = new Pen(Color.White, 2);
         private readonly SolidBrush _whiteBrush = new SolidBrush(Color.White);
+        private readonly SolidBrush _blackBrush = new SolidBrush(Color.Black);
 
         private static readonly SolidBrush SolidBrush = new SolidBrush(Color.FromArgb(0x55, 0xff, 0xff, 0xff));
 
@@ -1953,6 +1984,32 @@ namespace MissionPlanner.Controls
                     graphicsObject.DrawLine(this._redPen, 0 - _SSA * every5deg, -halfwidth / 20 - _AOA * every5deg,
                         0 - _SSA * every5deg, -halfwidth / 40 - _AOA * every5deg);
 
+                }
+
+                // Steering Reticle
+                {
+                    Point p = new Point( (int)((_steerheading - _heading) * (this.Width / 20.0f)), 0 );
+                    float scale = 5;
+                    Point[] poly = new Point[] { new Point((int)(p.X - (every5deg * scale)), (int)(p.Y + every5deg * scale)), new Point((int)(p.X + every5deg * scale), (int)(p.Y + every5deg * scale)), new Point(p.X, p.Y) };
+                    graphicsObject.FillPolygon(Brushes.White,poly);
+                    graphicsObject.DrawPolygon(_blackPen, poly);
+                }
+
+                // Wheel Direction
+                {
+                    Point centre = new Point(0, halfheight / 2);
+                    float wheellength = halfheight / 3f;
+                    Point p1 = new Point(-(int)(wheellength/2f*Math.Sin(_steerval * Math.PI/180)),
+                                         (int)(wheellength/2f*Math.Cos(_steerval * Math.PI/180)));
+                    Point p2 = new Point(-p1.X, -p1.Y);
+                    p1.X += centre.X;
+                    p1.Y += centre.Y;
+                    p2.X += centre.X;
+                    p2.Y += centre.Y;
+                    float oldPenWidth = this._blackPen.Width;
+                    this._blackPen.Width = 5*every5deg;
+                    graphicsObject.DrawLine(this._blackPen, p1.X, p1.Y, p2.X, p2.Y);
+                    this._blackPen.Width = oldPenWidth;
                 }
 
                 //draw heading ind

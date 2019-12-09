@@ -811,6 +811,18 @@ namespace MissionPlanner
         [DisplayText("Mode")]
         public string mode { get; set; }
 
+        [GroupText("Steering")]
+        [DisplayText("Steering Target Heading")]
+        public float steerheading { get; set; }
+
+        [GroupText("Steering")]
+        [DisplayText("Steering Value")]
+        public float steerval { get; set; }
+
+        [GroupText("Steering")]
+        [DisplayText("Ground Steering Active")]
+        public bool steeractive { get; set; }
+
         [DisplayText("ClimbRate (speed)")]
         public float climbrate
         {
@@ -2852,6 +2864,15 @@ namespace MissionPlanner
 
                         AOA = aoa_ssa.AOA;
                         SSA = aoa_ssa.SSA;
+                    }
+                        break;
+                    case (uint)MAVLink.MAVLINK_MSG_ID.STEERING:
+
+                    {
+                        var steering = mavLinkMessage.ToStructure<MAVLink.mavlink_steering_t>();
+
+                        steerheading = steering.target_heading;
+                        steerval = steering.steer_cmd;
                     }
                         break;
                 }

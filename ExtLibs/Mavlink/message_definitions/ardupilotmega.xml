@@ -1600,5 +1600,10 @@
       <field type="uint16_t[4]" name="rpm" units="rpm">RPM (eRPM).</field>
       <field type="uint16_t[4]" name="count">count of telemetry packets received (wraps at 65535).</field>
     </message>
+    <message id="11033" name="STEERING">
+        <description>Extra ground steering information for GCS.</description>
+        <field type="float" name="target_heading" units="deg">Target Heading.</field>
+        <field type="float" name="steer_cmd" units="deg">Steering Servo Value.</field>
+    </message>
   </messages>
 </mavlink>

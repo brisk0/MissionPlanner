@@ -307,6 +307,8 @@
             this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("pitch", this.bindingSourceHud, "pitch", true));
             this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("roll", this.bindingSourceHud, "roll", true));
             this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("status", this.bindingSourceHud, "armed", true));
+            this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("steerval", this.bindingSourceHud, "steerval", true));
+            this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("steerheading", this.bindingSourceHud, "steerheading", true));
             this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("targetalt", this.bindingSourceHud, "targetalt", true));
             this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("targetheading", this.bindingSourceHud, "nav_bearing", true));
             this.hud1.DataBindings.Add(new System.Windows.Forms.Binding("targetspeed", this.bindingSourceHud, "targetairspeed", true));
@@ -355,6 +357,8 @@
             this.hud1.SSA = 0F;
             this.hud1.status = false;
             this.hud1.streamjpg = null;
+            this.hud1.steerheading = 0F;
+            this.hud1.steerval = 0F;
             this.hud1.targetalt = 0F;
             this.hud1.targetheading = 0F;
             this.hud1.targetspeed = 0F;
