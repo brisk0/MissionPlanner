@@ -1988,7 +1988,15 @@ namespace MissionPlanner.Controls
 
                 // Steering Reticle
                 {
-                    Point p = new Point( (int)((_steerheading - _heading) * (this.Width / 20.0f)), 0 );
+                    float headingdiff = _steerheading - _heading;
+                    if (headingdiff > 180)
+                    {
+                        headingdiff -= 360;
+                    } else if (headingdiff < -180) {
+                        headingdiff += 360;
+                    }
+                    Point p = new Point( (int)((headingdiff) * (this.Width / 20.0f)), 0 );
+                    p.X = (int)MathHelper.constrain(p.X, -halfwidth, halfwidth);
                     float scale = 5;
                     Point[] poly = new Point[] { new Point((int)(p.X - (every5deg * scale)), (int)(p.Y + every5deg * scale)), new Point((int)(p.X + every5deg * scale), (int)(p.Y + every5deg * scale)), new Point(p.X, p.Y) };
                     graphicsObject.FillPolygon(Brushes.White,poly);

@@ -813,11 +813,22 @@ namespace MissionPlanner
 
         [GroupText("Steering")]
         [DisplayText("Steering Target Heading")]
-        public float steerheading { get; set; }
+        public float steertargethdg { get; set; }
 
         [GroupText("Steering")]
         [DisplayText("Steering Value")]
-        public float steerval { get; set; }
+        public float steerwheelangle { get; set; }
+
+
+        [GroupText("Steering")]
+        [DisplayText("Steering Target Error (deg)")]
+        public float steertargeterr
+        { get; set; }
+
+        [GroupText("Steering")]
+        [DisplayText("Steering Target Error (deg)")]
+        public float steerheading
+        { get; set; }
 
         [GroupText("Steering")]
         [DisplayText("Ground Steering Active")]
@@ -2871,8 +2882,10 @@ namespace MissionPlanner
                     {
                         var steering = mavLinkMessage.ToStructure<MAVLink.mavlink_steering_t>();
 
-                        steerheading = steering.target_heading;
-                        steerval = steering.steer_cmd;
+                        steertargethdg = steering.target_heading;
+                        steerwheelangle = steering.steer_cmd;
+                        steertargeterr = steering.steer_err;
+                        steerheading = steering.steer_heading;
                     }
                         break;
                 }

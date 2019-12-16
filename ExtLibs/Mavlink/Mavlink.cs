@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 public partial class MAVLink
 {
-    public const string MAVLINK_BUILD_DATE = "Tue Dec 10 2019";
+    public const string MAVLINK_BUILD_DATE = "Mon Dec 16 2019";
     public const string MAVLINK_WIRE_PROTOCOL_VERSION = "2.0";
     public const int MAVLINK_MAX_PAYLOAD_LEN = 255;
 
@@ -280,7 +280,7 @@ public partial class MAVLink
         new message_info(11030, "ESC_TELEMETRY_1_TO_4", 144, 44, 44, typeof( mavlink_esc_telemetry_1_to_4_t )),
         new message_info(11031, "ESC_TELEMETRY_5_TO_8", 133, 44, 44, typeof( mavlink_esc_telemetry_5_to_8_t )),
         new message_info(11032, "ESC_TELEMETRY_9_TO_12", 85, 44, 44, typeof( mavlink_esc_telemetry_9_to_12_t )),
-        new message_info(11033, "STEERING", 215, 8, 8, typeof( mavlink_steering_t )),
+        new message_info(11033, "STEERING", 181, 16, 16, typeof( mavlink_steering_t )),
         new message_info(12900, "OPEN_DRONE_ID_BASIC_ID", 197, 22, 22, typeof( mavlink_open_drone_id_basic_id_t )),
         new message_info(12901, "OPEN_DRONE_ID_LOCATION", 16, 37, 37, typeof( mavlink_open_drone_id_location_t )),
         new message_info(12902, "OPEN_DRONE_ID_AUTHENTICATION", 254, 25, 25, typeof( mavlink_open_drone_id_authentication_t )),
@@ -7807,14 +7807,16 @@ public partial class MAVLink
     };
 
 
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=8)]
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=16)]
     ///<summary> Extra ground steering information for GCS. </summary>
     public struct mavlink_steering_t
     {
-        public mavlink_steering_t(float target_heading,float steer_cmd) 
+        public mavlink_steering_t(float target_heading,float steer_cmd,float steer_heading,float steer_err) 
         {
               this.target_heading = target_heading;
               this.steer_cmd = steer_cmd;
+              this.steer_heading = steer_heading;
+              this.steer_err = steer_err;
             
         }
         /// <summary>Target Heading.  [deg] </summary>
@@ -7825,6 +7827,14 @@ public partial class MAVLink
         [Units("[deg]")]
         [Description("Steering Servo Value.")]
         public  float steer_cmd;
+            /// <summary>Steering Servo Value.  [deg] </summary>
+        [Units("[deg]")]
+        [Description("Steering Servo Value.")]
+        public  float steer_heading;
+            /// <summary>Steering Servo Value.  [deg] </summary>
+        [Units("[deg]")]
+        [Description("Steering Servo Value.")]
+        public  float steer_err;
     
     };
 
